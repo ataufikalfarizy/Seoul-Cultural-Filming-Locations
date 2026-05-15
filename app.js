@@ -1,0 +1,452 @@
+// --- DOM Elements ---
+const htmlEl = document.documentElement;
+const themeToggle = document.getElementById('theme-toggle');
+const sidebar = document.getElementById('sidebar');
+const collapseBtn = document.getElementById('collapse-btn');
+const expandBtn = document.getElementById('expand-btn');
+const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+const mobileOverlay = document.getElementById('mobile-overlay');
+const btnRecenter = document.getElementById('btn-recenter');
+const loadingOverlay = document.getElementById('loading-overlay');
+
+// Chatbot UI Elements
+const chatbotFab = document.getElementById('chatbot-fab');
+const chatbotPanel = document.getElementById('chatbot-panel');
+const closeChatBtn = document.getElementById('close-chat');
+const chatMessages = document.getElementById('chat-messages');
+const chatPrompts = document.querySelectorAll('.chat-prompt');
+
+// Filters
+const categoryFilters = document.querySelectorAll('.category-filter');
+const ratingSlider = document.getElementById('rating-slider');
+const ratingValue = document.getElementById('rating-value');
+const popularFilter = document.getElementById('popular-filter');
+const densityFilter = document.getElementById('density-filter');
+
+// --- Global State ---
+let map;
+let allFeatures = []; // To store the original GeoJSON features
+let geojsonLayer;
+let bufferLayer; // LayerGroup for circles
+let currentTheme = 'dark';
+
+const SEOUL_CENTER = [37.5665, 126.9780];
+const DEFAULT_ZOOM = 12;
+
+// Colors mapping
+const COLORS = {
+    'Budaya': '#ef4444', // Red
+    'Lokasi Syuting': '#3b82f6', // Blue
+    'Keduanya': '#a855f7' // Purple
+};
+
+const ICONS = {
+    'Budaya': 'fa-landmark',
+    'Lokasi Syuting': 'fa-video',
+    'Keduanya': 'fa-star'
+};
+
+// --- Initialization ---
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    initUI();
+    initMap();
+    loadData();
+});
+
+// --- Theme Management ---
+function initTheme() {
+    // We set dark as default in HTML, let's sync
+    if (htmlEl.classList.contains('dark')) {
+        themeToggle.checked = true;
+        currentTheme = 'dark';
+    } else {
+        themeToggle.checked = false;
+        currentTheme = 'light';
+    }
+
+    themeToggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            htmlEl.classList.add('dark');
+            currentTheme = 'dark';
+        } else {
+            htmlEl.classList.remove('dark');
+            currentTheme = 'light';
+        }
+        updateBasemap();
+    });
+}
+
+// --- UI Interactions ---
+function initUI() {
+    // Sidebar Collapse (Desktop)
+    collapseBtn.addEventListener('click', () => {
+        sidebar.classList.add('md:-translate-x-full');
+        setTimeout(() => {
+            expandBtn.classList.remove('hidden');
+        }, 300);
+        setTimeout(() => map.invalidateSize(), 400);
+    });
+
+    expandBtn.addEventListener('click', () => {
+        sidebar.classList.remove('md:-translate-x-full');
+        expandBtn.classList.add('hidden');
+        setTimeout(() => map.invalidateSize(), 400);
+    });
+
+    // Mobile Bottom Sheet / Overlay
+    const toggleMobileMenu = () => {
+        sidebar.classList.toggle('mobile-open');
+        mobileOverlay.classList.toggle('overlay-open');
+    };
+
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    mobileOverlay.addEventListener('click', toggleMobileMenu);
+
+    // Reset View
+    btnRecenter.addEventListener('click', () => {
+        map.flyTo(SEOUL_CENTER, DEFAULT_ZOOM, { duration: 1.5 });
+    });
+
+    // Filter Listeners
+    categoryFilters.forEach(cb => cb.addEventListener('change', updateMapData));
+    
+    ratingSlider.addEventListener('input', (e) => {
+        ratingValue.textContent = parseFloat(e.target.value).toFixed(1) + '+';
+    });
+    ratingSlider.addEventListener('change', updateMapData);
+    
+    popularFilter.addEventListener('change', updateMapData);
+    densityFilter.addEventListener('change', updateMapData);
+
+    // Chatbot Listeners
+    chatbotFab.addEventListener('click', () => {
+        chatbotPanel.classList.add('chat-open');
+        chatbotFab.classList.add('scale-0');
+    });
+
+    closeChatBtn.addEventListener('click', () => {
+        chatbotPanel.classList.remove('chat-open');
+        chatbotFab.classList.remove('scale-0');
+    });
+
+    chatPrompts.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const queryType = e.currentTarget.dataset.query;
+            const text = e.currentTarget.innerText;
+            handleUserQuery(queryType, text);
+        });
+    });
+}
+
+// --- Map Logic ---
+const basemaps = {
+    light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }),
+    dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+    })
+};
+
+function initMap() {
+    map = L.map('map', {
+        center: SEOUL_CENTER,
+        zoom: DEFAULT_ZOOM,
+        zoomControl: false // Move to bottom right
+    });
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    // Init basemap
+    basemaps[currentTheme].addTo(map);
+    
+    // Init layer groups
+    bufferLayer = L.layerGroup().addTo(map);
+    geojsonLayer = L.geoJSON(null, {
+        pointToLayer: createCustomMarker,
+        onEachFeature: bindPopupData
+    }).addTo(map);
+}
+
+function updateBasemap() {
+    if (currentTheme === 'dark') {
+        map.removeLayer(basemaps.light);
+        basemaps.dark.addTo(map);
+    } else {
+        map.removeLayer(basemaps.dark);
+        basemaps.light.addTo(map);
+    }
+}
+
+// --- Data Loading & Processing ---
+async function loadData() {
+    loadingOverlay.classList.remove('opacity-0');
+    try {
+        const response = await fetch('data.geojson');
+        const data = await response.json();
+        allFeatures = data.features;
+        updateMapData(); // Initial render
+    } catch (error) {
+        console.error("Error loading GeoJSON data:", error);
+        alert("Failed to load map data. Make sure data.geojson exists.");
+    } finally {
+        loadingOverlay.classList.add('opacity-0');
+    }
+}
+
+// Custom Marker rendering
+function createCustomMarker(feature, latlng) {
+    const category = feature.properties.kategori_utama;
+    let colorClass = 'marker-kdrama';
+    let iconClass = 'fa-star';
+
+    if (category === 'Budaya') {
+        colorClass = 'marker-budaya';
+        iconClass = 'fa-landmark';
+    } else if (category === 'Lokasi Syuting') {
+        colorClass = 'marker-kdrama';
+        iconClass = 'fa-video';
+    } else if (category === 'Keduanya') {
+        colorClass = 'marker-both';
+        iconClass = 'fa-crown';
+    }
+
+    const html = `<div class="custom-marker ${colorClass} w-8 h-8 flex items-center justify-center shadow-lg"><i class="fa-solid ${iconClass} text-sm"></i></div>`;
+    
+    const icon = L.divIcon({
+        className: 'custom-div-icon',
+        html: html,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -16]
+    });
+
+    return L.marker(latlng, { icon: icon });
+}
+
+// Popup Content Generation
+function bindPopupData(feature, layer) {
+    const p = feature.properties;
+    const catClass = p.kategori_utama === 'Budaya' ? 'cat-budaya' : (p.kategori_utama === 'Lokasi Syuting' ? 'cat-kdrama' : 'cat-both');
+    
+    let kdramaBadge = '';
+    if (p.judul_drama && p.judul_drama !== '-' && p.judul_drama.trim() !== '') {
+        kdramaBadge = `
+            <div class="popup-kdrama-badge shadow-md">
+                <i class="fa-solid fa-clapperboard"></i> Featured in: ${p.judul_drama}
+            </div>
+        `;
+    }
+
+    const coords = feature.geometry.coordinates;
+
+    const html = `
+        <div class="popup-header">
+            <span class="popup-category ${catClass}">${p.kategori_utama}</span>
+            <h3 class="popup-title mt-2">${p.nama_lokasi}</h3>
+        </div>
+        <div class="popup-body">
+            ${kdramaBadge}
+            <p class="popup-desc">${p.deskripsi_popup || 'Tidak ada deskripsi.'}</p>
+        </div>
+        <div class="popup-footer flex-col items-stretch px-4 pb-4">
+            <div class="flex justify-between w-full mb-3">
+                <div class="popup-rating"><i class="fa-solid fa-star mr-1"></i> ${p.rating_gmaps}</div>
+                <div class="popup-reviews"><i class="fa-regular fa-comment mr-1"></i> ${parseInt(p.total_ulasan).toLocaleString()} reviews</div>
+            </div>
+            <a href="https://www.google.com/maps?q=${coords[1]},${coords[0]}" target="_blank" rel="noopener noreferrer" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center shadow-sm">
+                <i class="fa-solid fa-map-location-dot mr-2"></i> Open in Google Maps
+            </a>
+        </div>
+    `;
+
+    layer.bindPopup(html, { closeButton: false, minWidth: 300 });
+}
+
+// --- Filtering & Update Logic ---
+function updateMapData() {
+    // 1. Get Filter Values
+    const activeCategories = Array.from(categoryFilters)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+    
+    const minRating = parseFloat(ratingSlider.value);
+    const showPopular = popularFilter.checked;
+    const showDensity = densityFilter.checked;
+
+    // 2. Filter Features
+    let filteredFeatures = allFeatures.filter(f => {
+        const p = f.properties;
+        const matchesCategory = activeCategories.includes(p.kategori_utama);
+        const matchesRating = parseFloat(p.rating_gmaps) >= minRating;
+        return matchesCategory && matchesRating;
+    });
+
+    // Popularity Filter (Top 10)
+    if (showPopular) {
+        filteredFeatures.sort((a, b) => parseInt(b.properties.total_ulasan) - parseInt(a.properties.total_ulasan));
+        filteredFeatures = filteredFeatures.slice(0, 10);
+    }
+
+    // Density Filter (Hotspots < 500m)
+    // We highlight them by only keeping features that are within 500m of another feature in the current filtered set.
+    if (showDensity && filteredFeatures.length > 1) {
+        const fc = turf.featureCollection(filteredFeatures);
+        const denseFeatures = [];
+        
+        filteredFeatures.forEach(feature => {
+            // Find distances from this feature to all others
+            let hasNeighbor = false;
+            for (let other of filteredFeatures) {
+                if (feature.properties.id_lokasi !== other.properties.id_lokasi) {
+                    const distance = turf.distance(feature, other, {units: 'kilometers'});
+                    if (distance <= 0.5) { // 500m
+                        hasNeighbor = true;
+                        break;
+                    }
+                }
+            }
+            if (hasNeighbor) {
+                denseFeatures.push(feature);
+            }
+        });
+        filteredFeatures = denseFeatures;
+    }
+
+    // 3. Render Markers
+    geojsonLayer.clearLayers();
+    geojsonLayer.addData(filteredFeatures);
+
+    // 4. Render Buffers
+    bufferLayer.clearLayers();
+    filteredFeatures.forEach(f => {
+        const coords = f.geometry.coordinates;
+        const cat = f.properties.kategori_utama;
+        const color = COLORS[cat] || '#888';
+        
+        // Draw a 500m buffer circle
+        L.circle([coords[1], coords[0]], {
+            radius: 500, // meters
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.15,
+            weight: 1,
+            dashArray: '4, 4'
+        }).addTo(bufferLayer);
+    });
+
+    // 5. Fit Bounds if not empty
+    if (filteredFeatures.length > 0) {
+        const group = new L.featureGroup(geojsonLayer.getLayers());
+        // Only fit bounds if density filter is toggled to show the new focus, otherwise stay put
+        // or just fit bounds smoothly if points changed dramatically
+        // For a better UX, maybe we don't always zoom unless requested. 
+        // We will just do a soft pan if the map center is too far.
+        // Let's just do it smoothly
+        map.flyToBounds(group.getBounds(), { padding: [50, 50], duration: 1, maxZoom: 14 });
+    }
+}
+
+// --- Chatbot Logic ---
+
+function appendMessage(sender, text) {
+    const div = document.createElement('div');
+    const isUser = sender === 'user';
+    div.className = `chat-bubble ${sender} text-sm p-3 shadow-sm border ${isUser ? 'user' : 'ai bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-600'}`;
+    div.innerHTML = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function handleUserQuery(queryType, buttonText) {
+    // 1. Show user message
+    appendMessage('user', buttonText);
+
+    // 2. Simulate typing/thinking delay
+    setTimeout(() => {
+        let response = '';
+
+        if (!allFeatures || allFeatures.length === 0) {
+            response = "Maaf, data belum termuat sepenuhnya.";
+        } else {
+            switch(queryType) {
+                case 'density':
+                    response = analyzeDensity();
+                    break;
+                case 'route':
+                    response = recommendRoute();
+                    break;
+                case 'rating':
+                    response = analyzeRating();
+                    break;
+                default:
+                    response = "Maaf, saya tidak mengerti kueri tersebut.";
+            }
+        }
+
+        appendMessage('ai', response);
+    }, 600);
+}
+
+function analyzeDensity() {
+    // Find the hotspot for "Lokasi Syuting"
+    const dramaSpots = allFeatures.filter(f => f.properties.kategori_utama === 'Lokasi Syuting');
+    if(dramaSpots.length === 0) return "Belum ada data lokasi syuting.";
+
+    let maxNeighbors = -1;
+    let hotspotName = "";
+
+    dramaSpots.forEach(spot => {
+        let neighbors = 0;
+        allFeatures.forEach(other => {
+            if (spot.properties.id_lokasi !== other.properties.id_lokasi) {
+                const dist = turf.distance(spot, other, {units: 'kilometers'});
+                if (dist <= 0.5) neighbors++;
+            }
+        });
+        if(neighbors > maxNeighbors) {
+            maxNeighbors = neighbors;
+            hotspotName = spot.properties.nama_lokasi;
+        }
+    });
+
+    return `Berdasarkan analisis spasial, area di sekitar <b>${hotspotName}</b> memiliki kepadatan lokasi industri syuting tertinggi. Terdapat ${maxNeighbors} lokasi wisata/syuting lain dalam radius 500 meter! 🎥🔥`;
+}
+
+function recommendRoute() {
+    // Find closest pair of Budaya and Lokasi Syuting
+    const cultures = allFeatures.filter(f => f.properties.kategori_utama === 'Budaya');
+    const dramas = allFeatures.filter(f => f.properties.kategori_utama === 'Lokasi Syuting');
+    
+    if (cultures.length === 0 || dramas.length === 0) return "Data belum memadai untuk rekomendasi ini.";
+
+    let minDistance = Infinity;
+    let bestPair = [];
+
+    cultures.forEach(c => {
+        dramas.forEach(d => {
+            const dist = turf.distance(c, d, {units: 'kilometers'});
+            if(dist < minDistance) {
+                minDistance = dist;
+                bestPair = [c, d];
+            }
+        });
+    });
+
+    return `🚶‍♂️ Rekomendasi rute jalan kaki terbaik: Mulai dari situs budaya <b>${bestPair[0].properties.nama_lokasi}</b>, lalu berjalan sejauh ${(minDistance * 1000).toFixed(0)} meter menuju <b>${bestPair[1].properties.nama_lokasi}</b> (Lokasi Syuting). Rute ini memadukan sejarah dan pop-culture dengan jarak terdekat!`;
+}
+
+function analyzeRating() {
+    const both = allFeatures.filter(f => f.properties.kategori_utama === 'Keduanya');
+    if (both.length === 0) return "Tidak ada data untuk kategori 'Keduanya'.";
+
+    const total = both.reduce((acc, curr) => acc + parseFloat(curr.properties.rating_gmaps), 0);
+    const avg = (total / both.length).toFixed(2);
+
+    return `⭐ Rata-rata rating Google Maps untuk kategori 'Keduanya' (lokasi sejarah yang juga menjadi tempat syuting) adalah <b>${avg}</b> dari skala 5. Ini menunjukkan bahwa perpaduan budaya dan pop-culture sangat disukai wisatawan!`;
+}

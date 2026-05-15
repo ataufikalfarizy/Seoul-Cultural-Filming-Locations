@@ -1,0 +1,530 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9770195,
+          37.57977852
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-001",
+        "nama_lokasi": "Gyeongbokgung Palace",
+        "kategori_utama": "Keduanya",
+        "alamat": "161 Sajik-ro, Jongno District, Seoul, South Korea",
+        "Latitude": "37.57977852",
+        "Longitude": "126.9770195",
+        "judul_drama": "Kingdom, Goblin",
+        "rating_gmaps": "4.6",
+        "total_ulasan": "48500",
+        "ulasan_keyword_drama": "2100",
+        "ulasan_keyword_budaya": "15400",
+        "rasio_pengaruh_drama": "4.33",
+        "deskripsi_popup": "Istana utama Dinasti Joseon. Sering dikunjungi turis karena sejarahnya dan juga sebagai lokasi syuting 'Kingdom'."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9849304,
+          37.58165663
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-002",
+        "nama_lokasi": "Bukchon Hanok Village",
+        "kategori_utama": "Keduanya",
+        "alamat": "Gyedong-gil, Jongno District, Seoul, South Korea",
+        "Latitude": "37.58165663",
+        "Longitude": "126.9849304",
+        "judul_drama": "True Beauty, Personal Taste",
+        "rating_gmaps": "4.5",
+        "total_ulasan": "32100",
+        "ulasan_keyword_drama": "3500",
+        "ulasan_keyword_budaya": "11200",
+        "rasio_pengaruh_drama": "10.9",
+        "deskripsi_popup": "Desa tradisional Korea di tengah kota. Sangat populer bagi penggemar KDrama 'True Beauty'."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9938587,
+          37.57482685
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-003",
+        "nama_lokasi": "Jongmyo Shrine",
+        "kategori_utama": "Budaya",
+        "alamat": "South Korea, Seoul, Jongno District, Jong-ro, 157 종묘관리소",
+        "Latitude": "37.57482685",
+        "Longitude": "126.9938587",
+        "judul_drama": "-",
+        "rating_gmaps": "4.5",
+        "total_ulasan": "8900",
+        "ulasan_keyword_drama": "50",
+        "ulasan_keyword_budaya": "5200",
+        "rasio_pengaruh_drama": "0.56",
+        "deskripsi_popup": "Kuil Konfusianisme tertua di Seoul. Fokus utama wisatawan adalah murni warisan budaya dan sejarah."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9875441,
+          37.53543562
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-004",
+        "nama_lokasi": "Noksapyeong Overpass",
+        "kategori_utama": "Lokasi Syuting",
+        "alamat": "yongsan-dong 2(i)-ga, Yongsan District, Seoul, South Korea",
+        "Latitude": "37.53543562",
+        "Longitude": "126.9875441",
+        "judul_drama": "Itaewon Class",
+        "rating_gmaps": "4.4",
+        "total_ulasan": "1200",
+        "ulasan_keyword_drama": "950",
+        "ulasan_keyword_budaya": "10",
+        "rasio_pengaruh_drama": "79.17",
+        "deskripsi_popup": "Jembatan penyeberangan ikonik dari drama 'Itaewon Class' dengan pemandangan Namsan Tower."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9755343,
+          37.56504336
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-005",
+        "nama_lokasi": "Deoksugung Stonewall Walkway",
+        "kategori_utama": "Keduanya",
+        "alamat": "99 Sejong-daero, Jung District, Seoul, South Korea",
+        "Latitude": "37.56504336",
+        "Longitude": "126.9755343",
+        "judul_drama": "Goblin, Extraordinary Attorney Woo",
+        "rating_gmaps": "4.7",
+        "total_ulasan": "15400",
+        "ulasan_keyword_drama": "4800",
+        "ulasan_keyword_budaya": "4100",
+        "rasio_pengaruh_drama": "31.17",
+        "deskripsi_popup": "Jalan setapak bersejarah yang sangat ikonik berkat drama 'Goblin'. Perpaduan sempurna budaya dan pop-culture."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9439576,
+          37.55823306
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-006",
+        "nama_lokasi": "BBQ Olive Chicken (Cheonggyecheon)",
+        "kategori_utama": "Lokasi Syuting",
+        "alamat": "Ewhayeodae 3-gil, Seodaemun-gu, Seoul, South Korea",
+        "Latitude": "37.55823306",
+        "Longitude": "126.9439576",
+        "judul_drama": "Crash Landing on You, Goblin",
+        "rating_gmaps": "4.2",
+        "total_ulasan": "2100",
+        "ulasan_keyword_drama": "1600",
+        "ulasan_keyword_budaya": "5",
+        "rasio_pengaruh_drama": "76.19",
+        "deskripsi_popup": "Restoran ayam goreng yang mendadak jadi destinasi turis internasional karena syuting KDrama."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9894818,
+          37.57807012
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-007",
+        "nama_lokasi": "Changdeokgung Palace",
+        "kategori_utama": "Budaya",
+        "alamat": "4-1 Waryong-dong, Jongno District, Seoul, South Korea",
+        "Latitude": "37.57807012",
+        "Longitude": "126.9894818",
+        "judul_drama": "Kingdom",
+        "rating_gmaps": "4.7",
+        "total_ulasan": "18200",
+        "ulasan_keyword_drama": "800",
+        "ulasan_keyword_budaya": "8500",
+        "rasio_pengaruh_drama": "4.4",
+        "deskripsi_popup": "Situs Warisan Dunia UNESCO dengan Secret Garden. Populer untuk wisata sejarah dengan sedikit pengaruh drama kolosal."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9882266,
+          37.55138202
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-008",
+        "nama_lokasi": "N Seoul Tower (Namsan)",
+        "kategori_utama": "Keduanya",
+        "alamat": "105 Namsangongwon-gil, Yongsan District, Seoul, South Korea",
+        "Latitude": "37.55138202",
+        "Longitude": "126.9882266",
+        "judul_drama": "My Love from the Star, True Beauty",
+        "rating_gmaps": "4.6",
+        "total_ulasan": "65000",
+        "ulasan_keyword_drama": "12000",
+        "ulasan_keyword_budaya": "2000",
+        "rasio_pengaruh_drama": "18.46",
+        "deskripsi_popup": "Ikon kota Seoul. Sangat sering muncul di drama romantis; ulasan budaya minim, dominan pop-culture dan pemandangan."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9787121,
+          37.56925454
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-009",
+        "nama_lokasi": "Cheonggyecheon Stream",
+        "kategori_utama": "Keduanya",
+        "alamat": "Jongno District, Seoul, South Korea",
+        "Latitude": "37.56925454",
+        "Longitude": "126.9787121",
+        "judul_drama": "Vincenzo, Goblin",
+        "rating_gmaps": "4.6",
+        "total_ulasan": "28000",
+        "ulasan_keyword_drama": "4500",
+        "ulasan_keyword_budaya": "1500",
+        "rasio_pengaruh_drama": "16.07",
+        "deskripsi_popup": "Aliran air restorasi kota. Sering jadi tempat syuting adegan romantis atau berjalan santai di drama."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0611484,
+          37.51046567
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-010",
+        "nama_lokasi": "Starfield Library (COEX)",
+        "kategori_utama": "Lokasi Syuting",
+        "alamat": "South Korea, Seoul, Gangnam District, Yeongdong-daero, 513 스타필드 코엑스몰 B1",
+        "Latitude": "37.51046567",
+        "Longitude": "127.0611484",
+        "judul_drama": "Record of Youth",
+        "rating_gmaps": "4.7",
+        "total_ulasan": "18500",
+        "ulasan_keyword_drama": "6000",
+        "ulasan_keyword_budaya": "100",
+        "rasio_pengaruh_drama": "32.43",
+        "deskripsi_popup": "Perpustakaan megah di dalam mal. Populer sebagai spot foto estetis dan lokasi adegan drama modern."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0092021,
+          37.56673818
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-011",
+        "nama_lokasi": "Dongdaemun Design Plaza",
+        "kategori_utama": "Keduanya",
+        "alamat": "281 Eulji-ro, Jung District, Seoul, South Korea",
+        "Latitude": "37.56673818",
+        "Longitude": "127.0092021",
+        "judul_drama": "Vincenzo, My Love from the Star",
+        "rating_gmaps": "4.5",
+        "total_ulasan": "31000",
+        "ulasan_keyword_drama": "5200",
+        "ulasan_keyword_budaya": "3100",
+        "rasio_pengaruh_drama": "16.77",
+        "deskripsi_popup": "Pusat arsitektur modern. Mewakili budaya desain kontemporer Korea sekaligus lokasi syuting ikonik."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0071593,
+          37.57815733
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-012",
+        "nama_lokasi": "Ihwa Mural Village",
+        "kategori_utama": "Keduanya",
+        "alamat": "49 Naksan 4-gil, Jongno District, Seoul, South Korea",
+        "Latitude": "37.57815733",
+        "Longitude": "127.0071593",
+        "judul_drama": "Strong Girl Bong-soon, Encounter",
+        "rating_gmaps": "4.3",
+        "total_ulasan": "9500",
+        "ulasan_keyword_drama": "3800",
+        "ulasan_keyword_budaya": "1200",
+        "rasio_pengaruh_drama": "40",
+        "deskripsi_popup": "Desa seni dengan mural di lereng bukit. Terkenal karena banyak drama syuting di area tangganya yang ikonik."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9768688,
+          37.57248251
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-013",
+        "nama_lokasi": "Gwanghwamun Square",
+        "kategori_utama": "Keduanya",
+        "alamat": "172 Sejong-daero, Jongno District, Seoul, South Korea",
+        "Latitude": "37.57248251",
+        "Longitude": "126.9768688",
+        "judul_drama": "The King: Eternal Monarch, Iris",
+        "rating_gmaps": "4.6",
+        "total_ulasan": "24000",
+        "ulasan_keyword_drama": "3100",
+        "ulasan_keyword_budaya": "10500",
+        "rasio_pengaruh_drama": "12.92",
+        "deskripsi_popup": "Alun-alun dengan patung Raja Sejong. Kental nilai sejarah namun sering jadi latar adegan epik drama fantasi/aksi."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9804487,
+          37.5239697
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-014",
+        "nama_lokasi": "National Museum of Korea",
+        "kategori_utama": "Budaya",
+        "alamat": "198 Sejong-daero, Jongno District, Seoul, South Korea",
+        "Latitude": "37.5239697",
+        "Longitude": "126.9804487",
+        "judul_drama": "-",
+        "rating_gmaps": "4.8",
+        "total_ulasan": "21000",
+        "ulasan_keyword_drama": "120",
+        "ulasan_keyword_budaya": "15000",
+        "rasio_pengaruh_drama": "0.57",
+        "deskripsi_popup": "Museum nasional terbesar. Pengunjung murni mencari edukasi mengenai sejarah dan artefak budaya Korea."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9987787,
+          37.51276113
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-015",
+        "nama_lokasi": "Banpo Bridge Rainbow Fountain",
+        "kategori_utama": "Lokasi Syuting",
+        "alamat": "Banpo-dong, Seocho District, Seoul, South Korea",
+        "Latitude": "37.51276113",
+        "Longitude": "126.9987787",
+        "judul_drama": "Start-Up, Boys Over Flowers",
+        "rating_gmaps": "4.6",
+        "total_ulasan": "14500",
+        "ulasan_keyword_drama": "4800",
+        "ulasan_keyword_budaya": "200",
+        "rasio_pengaruh_drama": "33.1",
+        "deskripsi_popup": "Pertunjukan air mancur bercahaya. Destinasi populer yang sering muncul di adegan romantis pinggir sungai Han."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9946487,
+          37.55947657
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-016",
+        "nama_lokasi": "Namsangol Hanok Village",
+        "kategori_utama": "Budaya",
+        "alamat": "28 Toegye-ro 34-gil, Jung District, Seoul, South Korea",
+        "Latitude": "37.55947657",
+        "Longitude": "126.9946487",
+        "judul_drama": "-",
+        "rating_gmaps": "4.5",
+        "total_ulasan": "11200",
+        "ulasan_keyword_drama": "200",
+        "ulasan_keyword_budaya": "8100",
+        "rasio_pengaruh_drama": "1.79",
+        "deskripsi_popup": "Alternatif desa tradisional yang lebih tenang. Dominan ulasan tentang pengalaman otentik rumah masa lalu."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9348185,
+          37.52687224
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-017",
+        "nama_lokasi": "Yeouido Hangang Park",
+        "kategori_utama": "Keduanya",
+        "alamat": "330 Yeouidong-ro, Yeongdeungpo District, Seoul, South Korea",
+        "Latitude": "37.52687224",
+        "Longitude": "126.9348185",
+        "judul_drama": "The King: Eternal Monarch",
+        "rating_gmaps": "4.6",
+        "total_ulasan": "41000",
+        "ulasan_keyword_drama": "5500",
+        "ulasan_keyword_budaya": "1200",
+        "rasio_pengaruh_drama": "13.41",
+        "deskripsi_popup": "Taman pinggir sungai Han. Bagian dari budaya rekreasi warga Seoul, sekaligus langganan masuk layar kaca."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9682332,
+          37.57143336
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-018",
+        "nama_lokasi": "Gyeonghuigung Palace",
+        "kategori_utama": "Budaya",
+        "alamat": "45 Saemunan-ro, Jongno District, Seoul, South Korea",
+        "Latitude": "37.57143336",
+        "Longitude": "126.9682332",
+        "judul_drama": "-",
+        "rating_gmaps": "4.4",
+        "total_ulasan": "4500",
+        "ulasan_keyword_drama": "50",
+        "ulasan_keyword_budaya": "3200",
+        "rasio_pengaruh_drama": "1.11",
+        "deskripsi_popup": "Istana kelima yang paling kecil dan tenang. Hampir tidak terpengaruh oleh ulasan pariwisata pop-culture."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9949158,
+          37.53188207
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-019",
+        "nama_lokasi": "Itaewon Antique Furniture Street",
+        "kategori_utama": "Lokasi Syuting",
+        "alamat": "Itaewon-dong, Yongsan District, Seoul, South Korea",
+        "Latitude": "37.53188207",
+        "Longitude": "126.9949158",
+        "judul_drama": "Itaewon Class",
+        "rating_gmaps": "4.3",
+        "total_ulasan": "2800",
+        "ulasan_keyword_drama": "1500",
+        "ulasan_keyword_budaya": "300",
+        "rasio_pengaruh_drama": "53.57",
+        "deskripsi_popup": "Jalanan unik penuh toko barang antik. Lonjakan jumlah ulasan sangat dipengaruhi kesuksesan drama Itaewon Class."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9560925,
+          37.57444104
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-020",
+        "nama_lokasi": "Seodaemun Prison History Hall",
+        "kategori_utama": "Budaya",
+        "alamat": "251 Tongil-ro, Seodaemun-gu, Seoul, South Korea",
+        "Latitude": "37.57444104",
+        "Longitude": "126.9560925",
+        "judul_drama": "-",
+        "rating_gmaps": "4.7",
+        "total_ulasan": "8800",
+        "ulasan_keyword_drama": "30",
+        "ulasan_keyword_budaya": "7500",
+        "rasio_pengaruh_drama": "0.34",
+        "deskripsi_popup": "Museum penjara masa penjajahan. Ulasan sangat serius dan murni berfokus pada sejarah kelam pergerakan kemerdekaan."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9388675,
+          37.56656376
+        ]
+      },
+      "properties": {
+        "id_lokasi": "SEL-021",
+        "nama_lokasi": "Yonsei University (Sinchon)",
+        "kategori_utama": "Keduanya",
+        "alamat": "50 Yonsei-ro, Seodaemun-gu, Seoul, South Korea",
+        "Latitude": "37.56656376",
+        "Longitude": "126.9388675",
+        "judul_drama": "Reply 1994, True Beauty, Snowdrop",
+        "rating_gmaps": "4.7",
+        "total_ulasan": "6200",
+        "ulasan_keyword_drama": "2100",
+        "ulasan_keyword_budaya": "800",
+        "rasio_pengaruh_drama": "33.87",
+        "deskripsi_popup": "Arsitektur kampus klasik yang menjadikannya simbol pendidikan bersejarah sekaligus lokasi favorit drama remaja."
+      }
+    }
+  ]
+}
