@@ -133,10 +133,33 @@ function initUI() {
     chatPrompts.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const queryType = e.currentTarget.dataset.query;
-            const text = e.currentTarget.innerText;
-            handleUserQuery(queryType, text);
+            let text = e.currentTarget.innerText;
+            // Remove emojis from text for cleaner query match if needed, or just map queries
+            
+            if (queryType === 'rating-top') {
+                handleTextQuery('Rating tertinggi');
+            } else if (queryType === 'kingdom') {
+                handleTextQuery('Kingdom');
+            } else if (queryType === 'density') {
+                handleTextQuery('Kepadatan');
+            } else {
+                handleTextQuery(text);
+            }
         });
     });
+
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    if (chatForm && chatInput) {
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = chatInput.value.trim();
+            if(text) {
+                handleTextQuery(text);
+                chatInput.value = '';
+            }
+        });
+    }
 }
 
 // --- Map Logic ---
@@ -171,6 +194,12 @@ function initMap() {
         pointToLayer: createCustomMarker,
         onEachFeature: bindPopupData
     }).addTo(map);
+
+    // Prevent map interactions when scrolling/touching sidebar & chatbot
+    L.DomEvent.disableScrollPropagation(sidebar);
+    L.DomEvent.disableClickPropagation(sidebar);
+    L.DomEvent.disableScrollPropagation(chatbotPanel);
+    L.DomEvent.disableClickPropagation(chatbotPanel);
 }
 
 function updateBasemap() {
@@ -324,19 +353,34 @@ function updateMapData() {
 
     // 4. Render Buffers
     bufferLayer.clearLayers();
+    
+    // Efficient intersection check for density glow
+    const intersecting = new Set();
+    for (let i = 0; i < filteredFeatures.length; i++) {
+        for (let j = i + 1; j < filteredFeatures.length; j++) {
+            const dist = turf.distance(filteredFeatures[i], filteredFeatures[j], {units: 'kilometers'});
+            if (dist <= 1.0) { // Buffers of 0.5 radius intersect if distance <= 1.0 (1km)
+                intersecting.add(filteredFeatures[i].properties.id_lokasi);
+                intersecting.add(filteredFeatures[j].properties.id_lokasi);
+            }
+        }
+    }
+
     filteredFeatures.forEach(f => {
         const coords = f.geometry.coordinates;
         const cat = f.properties.kategori_utama;
         const color = COLORS[cat] || '#888';
+        const isDense = intersecting.has(f.properties.id_lokasi);
         
         // Draw a 500m buffer circle
         L.circle([coords[1], coords[0]], {
             radius: 500, // meters
             color: color,
             fillColor: color,
-            fillOpacity: 0.15,
-            weight: 1,
-            dashArray: '4, 4'
+            fillOpacity: isDense ? 0.35 : 0.15,
+            weight: isDense ? 2 : 1,
+            dashArray: isDense ? null : '4, 4',
+            className: isDense ? 'buffer-glow' : ''
         }).addTo(bufferLayer);
     });
 
@@ -363,34 +407,60 @@ function appendMessage(sender, text) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-function handleUserQuery(queryType, buttonText) {
-    // 1. Show user message
-    appendMessage('user', buttonText);
+function handleTextQuery(text) {
+    appendMessage('user', text);
 
-    // 2. Simulate typing/thinking delay
     setTimeout(() => {
+        if (!allFeatures || allFeatures.length === 0) {
+            appendMessage('ai', "Maaf, data belum termuat sepenuhnya.");
+            return;
+        }
+
+        const lowerText = text.toLowerCase();
         let response = '';
 
-        if (!allFeatures || allFeatures.length === 0) {
-            response = "Maaf, data belum termuat sepenuhnya.";
+        if (lowerText.includes('rating') || lowerText.includes('tertinggi') || lowerText.includes('terbaik')) {
+            response = getTopRated();
+        } else if (lowerText.includes('kingdom') || lowerText.includes('zombie')) {
+            response = getDramaLocations('Kingdom');
+        } else if (lowerText.includes('kepadatan') || lowerText.includes('ramai') || lowerText.includes('density')) {
+            response = analyzeDensity();
+        } else if (lowerText.includes('rute') || lowerText.includes('jalan')) {
+            response = recommendRoute();
         } else {
-            switch(queryType) {
-                case 'density':
-                    response = analyzeDensity();
-                    break;
-                case 'route':
-                    response = recommendRoute();
-                    break;
-                case 'rating':
-                    response = analyzeRating();
-                    break;
-                default:
-                    response = "Maaf, saya tidak mengerti kueri tersebut.";
+            // Find in drama names
+            const foundDrama = allFeatures.filter(f => f.properties.judul_drama && f.properties.judul_drama.toLowerCase().includes(lowerText));
+            if (foundDrama.length > 0) {
+                response = `Saya menemukan ${foundDrama.length} lokasi untuk drama yang berkaitan dengan "${text}":<br>`;
+                response += foundDrama.map(f => `- <b>${f.properties.nama_lokasi}</b>`).join('<br>');
+            } else {
+                response = "Maaf, saya tidak menemukan informasi yang cocok dengan kata kunci tersebut. Coba cari nama drama, 'rating tertinggi', atau 'kepadatan'.";
             }
         }
 
         appendMessage('ai', response);
     }, 600);
+}
+
+function getTopRated() {
+    const sorted = [...allFeatures].sort((a, b) => parseFloat(b.properties.rating_gmaps) - parseFloat(a.properties.rating_gmaps));
+    const top3 = sorted.slice(0, 3);
+    let html = 'Berikut adalah 3 lokasi dengan rating tertinggi:<br><br>';
+    top3.forEach((f, i) => {
+        html += `${i+1}. <b>${f.properties.nama_lokasi}</b> (⭐ ${f.properties.rating_gmaps})<br>`;
+    });
+    return html;
+}
+
+function getDramaLocations(keyword) {
+    const matches = allFeatures.filter(f => f.properties.judul_drama && f.properties.judul_drama.toLowerCase().includes(keyword.toLowerCase()));
+    if (matches.length === 0) return `Tidak ada lokasi yang ditemukan untuk drama "${keyword}".`;
+    
+    let html = `Lokasi syuting untuk drama <b>${keyword}</b>:<br><br>`;
+    matches.forEach(f => {
+        html += `- <b>${f.properties.nama_lokasi}</b><br>`;
+    });
+    return html;
 }
 
 function analyzeDensity() {

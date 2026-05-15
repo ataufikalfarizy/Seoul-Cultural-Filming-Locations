@@ -1,5 +1,6 @@
 /* Base Styles & Utility */
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     font-family: 'Inter', sans-serif;
@@ -7,26 +8,42 @@ html, body {
 
 /* Glassmorphism Panel */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
 }
 
 .dark .glass-panel {
-    background: rgba(31, 41, 55, 0.85);
+    background: rgba(31, 41, 55, 0.95);
+}
+
+.glass-panel.active-glass,
+.mobile-open.glass-panel {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass-panel.active-glass,
+.dark .mobile-open.glass-panel {
+    background: rgba(31, 41, 55, 0.75);
 }
 
 /* Custom Scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgba(156, 163, 175, 0.5);
     border-radius: 20px;
 }
+
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgba(75, 85, 99, 0.5);
 }
@@ -45,14 +62,14 @@ html, body {
 @media (max-width: 767px) {
     #sidebar {
         height: auto;
-        max-height: 85vh;
+        max-height: 85dvh;
         border-radius: 24px 24px 0 0;
     }
-    
+
     .mobile-open {
         transform: translateY(0) !important;
     }
-    
+
     .overlay-open {
         opacity: 1 !important;
         pointer-events: auto !important;
@@ -89,7 +106,8 @@ LEAFLET CUSTOMIZATION
 
 .leaflet-popup-content {
     margin: 0;
-    width: 300px !important; /* Fixed width for better layout */
+    width: 300px !important;
+    /* Fixed width for better layout */
 }
 
 /* Popup Inner Layout */
@@ -124,13 +142,32 @@ LEAFLET CUSTOMIZATION
     border-radius: 9999px;
 }
 
-.cat-budaya { background: #fee2e2; color: #ef4444; }
-.cat-kdrama { background: #dbeafe; color: #3b82f6; }
-.cat-both { background: #f3e8ff; color: #a855f7; }
+.cat-budaya {
+    background: #fee2e2;
+    color: #ef4444;
+}
 
-.dark .cat-budaya { background: rgba(239, 68, 68, 0.2); }
-.dark .cat-kdrama { background: rgba(59, 130, 246, 0.2); }
-.dark .cat-both { background: rgba(168, 85, 247, 0.2); }
+.cat-kdrama {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.cat-both {
+    background: #f3e8ff;
+    color: #a855f7;
+}
+
+.dark .cat-budaya {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.dark .cat-kdrama {
+    background: rgba(59, 130, 246, 0.2);
+}
+
+.dark .cat-both {
+    background: rgba(168, 85, 247, 0.2);
+}
 
 .popup-body {
     padding: 16px;
@@ -179,7 +216,8 @@ LEAFLET CUSTOMIZATION
     display: flex;
     align-items: center;
     font-weight: 600;
-    color: #f59e0b; /* yellow */
+    color: #f59e0b;
+    /* yellow */
 }
 
 .popup-reviews {
@@ -212,14 +250,23 @@ LEAFLET CUSTOMIZATION
     z-index: 1000 !important;
 }
 
-.marker-budaya { background-color: #ef4444; }
-.marker-kdrama { background-color: #3b82f6; }
-.marker-both { background-color: #a855f7; }
+.marker-budaya {
+    background-color: #ef4444;
+}
+
+.marker-kdrama {
+    background-color: #3b82f6;
+}
+
+.marker-both {
+    background-color: #a855f7;
+}
 
 /* Map Controls Position Adjustment */
 .leaflet-top {
     top: 60px !important;
 }
+
 @media (min-width: 768px) {
     .leaflet-top {
         top: 0 !important;
@@ -246,3 +293,20 @@ LEAFLET CUSTOMIZATION
     align-self: flex-start;
 }
 
+/* Density Buffer Glow */
+.buffer-glow {
+    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.6));
+    animation: pulse-glow 2s infinite alternate;
+}
+
+@keyframes pulse-glow {
+    from {
+        filter: drop-shadow(0 0 6px rgba(99, 102, 241, 0.5));
+        opacity: 0.8;
+    }
+
+    to {
+        filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.9));
+        opacity: 1;
+    }
+}

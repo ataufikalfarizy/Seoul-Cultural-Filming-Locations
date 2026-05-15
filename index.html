@@ -46,10 +46,10 @@
 <body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300 overflow-hidden font-sans">
 
     <!-- App Container -->
-    <div class="relative h-screen w-full flex flex-col">
+    <div class="relative h-[100dvh] w-full flex flex-col pointer-events-none">
         
         <!-- Mobile Header (Visible only on small screens) -->
-        <header class="md:hidden flex items-center justify-between p-4 glass-panel z-[1000] sticky top-0 w-full shadow-md">
+        <header class="md:hidden flex items-center justify-between p-4 glass-panel active-glass z-[1000] sticky top-0 w-full shadow-md pointer-events-auto">
             <h1 class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">Seoul Tourism</h1>
             <button id="mobile-menu-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
                 <i class="fa-solid fa-bars"></i>
@@ -57,7 +57,7 @@
         </header>
 
         <!-- Sidebar / Bottom Sheet -->
-        <aside id="sidebar" class="sidebar-transition absolute z-[1000] w-full md:w-80 lg:w-96 h-[80vh] md:h-full bottom-0 md:bottom-auto md:top-0 md:left-0 glass-panel border-t md:border-t-0 md:border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform translate-y-full md:translate-y-0 md:translate-x-0 rounded-t-3xl md:rounded-none">
+        <aside id="sidebar" class="sidebar-transition absolute z-[1000] w-full md:w-80 lg:w-96 h-[85dvh] md:h-[100dvh] bottom-0 md:bottom-auto md:top-0 md:left-0 glass-panel md:active-glass border-t md:border-t-0 md:border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform translate-y-full md:translate-y-0 md:translate-x-0 rounded-t-3xl md:rounded-none pointer-events-auto touch-pan-y">
             
             <!-- Drag handle for mobile -->
             <div class="w-full flex justify-center py-3 md:hidden">
@@ -165,16 +165,16 @@
             </div>
             
             <!-- Floating Collapse Button (when sidebar is closed) -->
-            <button id="expand-btn" class="absolute -right-12 top-6 p-2 bg-white dark:bg-gray-800 shadow-lg rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 hidden md:flex hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+            <button id="expand-btn" class="absolute -right-12 top-6 p-2 bg-white dark:bg-gray-800 shadow-lg rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 hidden md:flex hover:bg-gray-50 dark:hover:bg-gray-700 transition pointer-events-auto">
                 <i class="fa-solid fa-chevron-right text-gray-600 dark:text-gray-300"></i>
             </button>
         </aside>
 
         <!-- Map Container -->
-        <main class="flex-1 h-full w-full relative z-0">
+        <main class="flex-1 h-full w-full relative z-0 pointer-events-auto">
             <div id="map" class="h-full w-full"></div>
             <!-- Loading Overlay -->
-            <div id="loading-overlay" class="absolute inset-0 z-[1000] flex items-center justify-center glass-panel opacity-0 pointer-events-none transition-opacity duration-300">
+            <div id="loading-overlay" class="absolute inset-0 z-[1000] flex items-center justify-center bg-white/50 dark:bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
         </main>
@@ -185,9 +185,9 @@
     </div>
 
     <!-- Chatbot UI -->
-    <div id="chatbot-container" class="fixed bottom-6 right-6 z-[1001] flex flex-col items-end">
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-[1001] flex flex-col items-end pointer-events-none">
         <!-- Chat Panel -->
-        <div id="chatbot-panel" class="mb-4 w-80 md:w-96 glass-panel rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 origin-bottom-right scale-0 opacity-0 pointer-events-none border border-gray-200/50 dark:border-gray-700/50">
+        <div id="chatbot-panel" class="mb-4 w-[90vw] md:w-96 glass-panel active-glass rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 origin-bottom-right scale-0 opacity-0 pointer-events-auto touch-pan-y border border-gray-200/50 dark:border-gray-700/50">
             <!-- Header -->
             <div class="bg-gradient-to-r from-primary to-purple-500 p-4 text-white flex justify-between items-center">
                 <div class="flex items-center">
@@ -210,23 +210,25 @@
             </div>
 
             <!-- Quick Prompts & Input -->
-            <div class="p-3 bg-white/80 dark:bg-gray-900/80 border-t border-gray-200/50 dark:border-gray-700/50">
-                <div class="flex flex-col space-y-2 mb-3">
-                    <button class="chat-prompt text-left text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 p-2 rounded-lg transition border border-gray-200 dark:border-gray-700" data-query="density">
-                        🎯 Area mana yang memiliki kepadatan lokasi syuting tertinggi?
-                    </button>
-                    <button class="chat-prompt text-left text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 p-2 rounded-lg transition border border-gray-200 dark:border-gray-700" data-query="route">
-                        🚶‍♂️ Rekomendasi rute jalan kaki (Budaya & Drama).
-                    </button>
-                    <button class="chat-prompt text-left text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 p-2 rounded-lg transition border border-gray-200 dark:border-gray-700" data-query="rating">
-                        ⭐ Berapa rata-rata rating untuk kategori 'Keduanya'?
-                    </button>
+            <div class="p-3 bg-white/90 dark:bg-gray-900/90 border-t border-gray-200/50 dark:border-gray-700/50 backdrop-blur-md">
+                <!-- Chips -->
+                <div class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2 mb-2">
+                    <button class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700" data-query="rating-top">⭐ Rating Tertinggi</button>
+                    <button class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700" data-query="kingdom">🧟 Drama Kingdom</button>
+                    <button class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700" data-query="density">🎯 Kepadatan</button>
                 </div>
+                <!-- Text Input -->
+                <form id="chat-form" class="flex items-center space-x-2">
+                    <input type="text" id="chat-input" class="flex-1 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 border-none focus:ring-2 focus:ring-primary outline-none transition" placeholder="Tanya sesuatu..." autocomplete="off">
+                    <button type="submit" class="bg-primary text-white w-9 h-9 rounded-full flex flex-shrink-0 items-center justify-center hover:bg-indigo-600 transition shadow-md">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
             </div>
         </div>
 
         <!-- FAB Button -->
-        <button id="chatbot-fab" class="w-14 h-14 bg-gradient-to-r from-primary to-purple-600 rounded-full shadow-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 animate-bounce">
+        <button id="chatbot-fab" class="w-14 h-14 bg-gradient-to-r from-primary to-purple-600 rounded-full shadow-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 animate-bounce pointer-events-auto">
             <i class="fa-solid fa-sparkles text-xl"></i>
         </button>
     </div>
