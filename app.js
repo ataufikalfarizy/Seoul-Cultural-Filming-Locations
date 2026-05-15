@@ -95,13 +95,21 @@ function initUI() {
     });
 
     // Mobile Bottom Sheet / Overlay
-    const toggleMobileMenu = () => {
+    const toggleMobileMenu = (e) => {
+        if(e) e.preventDefault();
         sidebar.classList.toggle('mobile-open');
         mobileOverlay.classList.toggle('overlay-open');
     };
 
-    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-    mobileOverlay.addEventListener('click', toggleMobileMenu);
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        mobileMenuToggle.addEventListener('touchstart', toggleMobileMenu, {passive: false});
+    }
+
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', toggleMobileMenu);
+        mobileOverlay.addEventListener('touchstart', toggleMobileMenu, {passive: false});
+    }
 
     // Reset View
     btnRecenter.addEventListener('click', () => {
@@ -198,6 +206,12 @@ function initMap() {
     // Prevent map interactions when scrolling/touching sidebar & chatbot
     L.DomEvent.disableScrollPropagation(sidebar);
     L.DomEvent.disableClickPropagation(sidebar);
+    
+    const sidebarScroll = document.getElementById('sidebar-scroll');
+    if (sidebarScroll) {
+        L.DomEvent.disableScrollPropagation(sidebarScroll);
+    }
+    
     L.DomEvent.disableScrollPropagation(chatbotPanel);
     L.DomEvent.disableClickPropagation(chatbotPanel);
 }

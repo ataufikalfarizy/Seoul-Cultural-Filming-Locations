@@ -49,12 +49,14 @@
     <div class="relative h-[100dvh] w-full flex flex-col pointer-events-none">
         
         <!-- Mobile Header (Visible only on small screens) -->
-        <header class="md:hidden flex items-center justify-between p-4 glass-panel active-glass z-[1000] sticky top-0 w-full shadow-md pointer-events-auto">
+        <header class="md:hidden flex items-center justify-center p-4 glass-panel active-glass z-[1000] sticky top-0 w-full shadow-sm pointer-events-auto">
             <h1 class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">Seoul Tourism</h1>
-            <button id="mobile-menu-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                <i class="fa-solid fa-bars"></i>
-            </button>
         </header>
+
+        <!-- Floating Mobile Menu Toggle (Thumb-zone) -->
+        <button id="mobile-menu-toggle" class="md:hidden fixed bottom-6 left-6 w-14 h-14 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full shadow-2xl flex items-center justify-center z-[1001] border border-gray-200 dark:border-gray-700 hover:scale-105 transition-transform pointer-events-auto">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
 
         <!-- Sidebar / Bottom Sheet -->
         <aside id="sidebar" class="sidebar-transition absolute z-[1000] w-full md:w-80 lg:w-96 h-[85dvh] md:h-[100dvh] bottom-0 md:bottom-auto md:top-0 md:left-0 glass-panel md:active-glass border-t md:border-t-0 md:border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform translate-y-full md:translate-y-0 md:translate-x-0 rounded-t-3xl md:rounded-none pointer-events-auto touch-pan-y">
@@ -77,7 +79,7 @@
             </div>
 
             <!-- Scrollable Content -->
-            <div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+            <div id="sidebar-scroll" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6" style="-webkit-overflow-scrolling: touch; overscroll-behavior-y: contain;">
                 
                 <!-- Map Controls & Theme -->
                 <div class="flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200/50 dark:border-gray-700/50">
@@ -180,7 +182,7 @@
         </main>
         
         <!-- Mobile Overlay -->
-        <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-[999] opacity-0 pointer-events-none transition-opacity md:hidden"></div>
+        <div id="mobile-overlay" class="fixed inset-0 bg-transparent z-[999] pointer-events-none md:hidden"></div>
 
     </div>
 
