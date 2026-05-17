@@ -22,12 +22,16 @@ const ratingSlider = document.getElementById('rating-slider');
 const ratingValue = document.getElementById('rating-value');
 const popularFilter = document.getElementById('popular-filter');
 const densityFilter = document.getElementById('density-filter');
+const subwayFilter = document.getElementById('subway-filter');
 
 // --- Global State ---
 let map;
 let allFeatures = []; // To store the original GeoJSON features
 let geojsonLayer;
 let bufferLayer; // LayerGroup for circles
+let subwayLayer; // LayerGroup for subway stations
+let subwayFeatures = []; // To store subway CSV data
+let isSubwayDataLoaded = false;
 let currentTheme = 'dark';
 
 const SEOUL_CENTER = [37.5665, 126.9780];
@@ -126,6 +130,24 @@ function initUI() {
     
     popularFilter.addEventListener('change', updateMapData);
     densityFilter.addEventListener('change', updateMapData);
+    
+    if (subwayFilter) {
+        subwayFilter.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                if (!isSubwayDataLoaded) {
+                    loadingOverlay.classList.remove('opacity-0');
+                    loadSubwayData().then(() => {
+                        map.addLayer(subwayLayer);
+                        loadingOverlay.classList.add('opacity-0');
+                    }).catch(() => loadingOverlay.classList.add('opacity-0'));
+                } else {
+                    map.addLayer(subwayLayer);
+                }
+            } else {
+                map.removeLayer(subwayLayer);
+            }
+        });
+    }
 
     // Chatbot Listeners
     chatbotFab.addEventListener('click', () => {
@@ -202,18 +224,22 @@ function initMap() {
         pointToLayer: createCustomMarker,
         onEachFeature: bindPopupData
     }).addTo(map);
+    subwayLayer = L.layerGroup(); // Do not add to map by default
 
     // Prevent map interactions when scrolling/touching sidebar & chatbot
     L.DomEvent.disableScrollPropagation(sidebar);
     L.DomEvent.disableClickPropagation(sidebar);
+    L.DomEvent.on(sidebar, 'touchstart touchmove touchend wheel', L.DomEvent.stopPropagation);
     
     const sidebarScroll = document.getElementById('sidebar-scroll');
     if (sidebarScroll) {
         L.DomEvent.disableScrollPropagation(sidebarScroll);
+        L.DomEvent.on(sidebarScroll, 'touchstart touchmove touchend wheel', L.DomEvent.stopPropagation);
     }
     
     L.DomEvent.disableScrollPropagation(chatbotPanel);
     L.DomEvent.disableClickPropagation(chatbotPanel);
+    L.DomEvent.on(chatbotPanel, 'touchstart touchmove touchend wheel', L.DomEvent.stopPropagation);
 }
 
 function updateBasemap() {
@@ -240,6 +266,50 @@ async function loadData() {
     } finally {
         loadingOverlay.classList.add('opacity-0');
     }
+}
+
+async function loadSubwayData() {
+    return new Promise((resolve, reject) => {
+        Papa.parse('QGIS/Seoul_subway_stations.csv', {
+            download: true,
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                const data = results.data;
+                subwayFeatures = data.filter(row => row.lat && row.lng);
+                
+                subwayFeatures.forEach(row => {
+                    const icon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div class="custom-marker marker-subway w-6 h-6 flex items-center justify-center shadow-md rounded-full text-white text-[10px] z-[100] border-2">M</div>`,
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12],
+                        popupAnchor: [0, -12]
+                    });
+
+                    const marker = L.marker([row.lat, row.lng], { icon: icon });
+                    
+                    const html = `
+                        <div class="popup-header">
+                            <span class="popup-category" style="background:#06b6d4;color:white;padding:2px 8px;border-radius:12px;font-weight:700;font-size:11px;">${row.line}</span>
+                            <h3 class="popup-title mt-2">${row.name} Station</h3>
+                        </div>
+                        <div class="popup-body p-4 text-sm">
+                            <p class="popup-desc m-0 flex items-center"><i class="fa-solid fa-hashtag mr-2 text-gray-400"></i> Station No: <b>${row.no}</b></p>
+                        </div>
+                    `;
+                    marker.bindPopup(html, { closeButton: false, minWidth: 220 });
+                    subwayLayer.addLayer(marker);
+                });
+                isSubwayDataLoaded = true;
+                resolve();
+            },
+            error: function(err) {
+                console.error("Error loading Subway Data", err);
+                reject(err);
+            }
+        });
+    });
 }
 
 // Custom Marker rendering

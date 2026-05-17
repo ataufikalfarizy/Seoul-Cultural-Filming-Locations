@@ -15,7 +15,7 @@ body {
 }
 
 .dark .glass-panel {
-    background: rgba(31, 41, 55, 0.95);
+    background: rgba(15, 23, 42, 0.95); /* slate-900 */
 }
 
 .glass-panel.active-glass,
@@ -27,7 +27,7 @@ body {
 
 .dark .glass-panel.active-glass,
 .dark .mobile-open.glass-panel {
-    background: rgba(31, 41, 55, 0.75);
+    background: rgba(15, 23, 42, 0.75);
 }
 
 /* Custom Scrollbar */
@@ -45,7 +45,7 @@ body {
 }
 
 .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(75, 85, 99, 0.5);
+    background-color: rgba(71, 85, 105, 0.5); /* slate-600 */
 }
 
 /* Sidebar Transition */
@@ -64,7 +64,12 @@ body {
         height: auto;
         max-height: 100dvh;
         border-radius: 24px 24px 0 0;
+    }
+
+    #sidebar-scroll {
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
     }
 
     .mobile-open {
@@ -92,8 +97,8 @@ LEAFLET CUSTOMIZATION
 }
 
 .dark .leaflet-popup-content-wrapper {
-    background: #1f2937;
-    color: #e5e7eb;
+    background: #0f172a;
+    color: #f1f5f9;
 }
 
 .leaflet-popup-tip {
@@ -101,7 +106,7 @@ LEAFLET CUSTOMIZATION
 }
 
 .dark .leaflet-popup-tip {
-    background: #1f2937;
+    background: #0f172a;
 }
 
 .leaflet-popup-content {
@@ -117,7 +122,7 @@ LEAFLET CUSTOMIZATION
 }
 
 .dark .popup-header {
-    border-bottom-color: #374151;
+    border-bottom-color: #334155;
 }
 
 .popup-title {
@@ -209,7 +214,7 @@ LEAFLET CUSTOMIZATION
 }
 
 .dark .popup-footer {
-    border-top-color: #4b5563;
+    border-top-color: #334155;
 }
 
 .popup-rating {
@@ -242,7 +247,7 @@ LEAFLET CUSTOMIZATION
 }
 
 .dark .custom-marker {
-    border-color: #1f2937;
+    border-color: #0f172a;
 }
 
 .custom-marker:hover {
@@ -260,6 +265,11 @@ LEAFLET CUSTOMIZATION
 
 .marker-both {
     background-color: #a855f7;
+}
+
+.marker-subway {
+    background-color: #06b6d4; /* Cyan */
+    font-weight: 800;
 }
 
 /* Map Controls Position Adjustment */

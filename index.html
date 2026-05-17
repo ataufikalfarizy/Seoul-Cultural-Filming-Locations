@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" class="dark"> <!-- Defaulting to dark mode for premium feel -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Seoul Heritage & KDrama Tourism</title>
-    
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Explore the intersection of cultural heritage and popular KDrama filming locations in Seoul with our interactive WebGIS platform.">
-    
+    <meta name="description"
+        content="Explore the intersection of cultural heritage and popular KDrama filming locations in Seoul with our interactive WebGIS platform.">
+
     <!-- Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -24,74 +26,93 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#6366f1',
+                        primary: '#4338ca', // Sleek Indigo
                         culture: '#ef4444', // Red
                         kdrama: '#3b82f6', // Blue
                         both: '#a855f7', // Purple
+                        slate: '#0f172a', // Deep slate
+                        cyan: '#06b6d4' // Neon accent
                     }
                 }
             }
         }
     </script>
-    
+
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-300 overflow-hidden font-sans">
+
+<body
+    class="bg-gray-50 text-gray-800 dark:bg-slate-900 dark:text-gray-200 transition-colors duration-300 overflow-hidden font-sans">
 
     <!-- App Container -->
     <div class="relative h-[100dvh] w-full flex flex-col pointer-events-none">
-        
+
         <!-- Mobile Header (Visible only on small screens) -->
-        <header class="md:hidden flex items-center justify-center p-4 glass-panel active-glass z-[1000] sticky top-0 w-full shadow-sm pointer-events-auto">
-            <h1 class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">Seoul Tourism</h1>
+        <header
+            class="md:hidden flex items-center justify-center p-4 glass-panel active-glass z-[1000] sticky top-0 w-full shadow-sm pointer-events-auto">
+            <h1 class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500">
+                Seoul Tourism</h1>
         </header>
 
         <!-- Floating Mobile Menu Toggle (Thumb-zone) -->
-        <button id="mobile-menu-toggle" class="md:hidden fixed bottom-6 left-6 w-14 h-14 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full shadow-2xl flex items-center justify-center z-[1001] border border-gray-200 dark:border-gray-700 hover:scale-105 transition-transform pointer-events-auto">
+        <button id="mobile-menu-toggle"
+            class="md:hidden fixed bottom-6 left-6 w-14 h-14 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-gray-800 dark:text-gray-200 rounded-full shadow-2xl flex items-center justify-center z-[1001] border border-gray-200/50 dark:border-slate-700/50 hover:scale-105 transition-transform pointer-events-auto">
             <i class="fa-solid fa-bars text-xl"></i>
         </button>
 
         <!-- Sidebar / Bottom Sheet -->
-        <aside id="sidebar" class="sidebar-transition absolute z-[1000] w-full md:w-80 lg:w-96 h-[85dvh] md:h-[100dvh] bottom-0 md:bottom-auto md:top-0 md:left-0 glass-panel md:active-glass border-t md:border-t-0 md:border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform translate-y-full md:translate-y-0 md:translate-x-0 rounded-t-3xl md:rounded-none pointer-events-auto touch-pan-y">
-            
+        <aside id="sidebar"
+            class="sidebar-transition absolute z-[1000] w-full md:w-80 lg:w-96 h-[85dvh] md:h-[100dvh] bottom-0 md:bottom-auto md:top-0 md:left-0 glass-panel md:active-glass border-t md:border-t-0 md:border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform translate-y-full md:translate-y-0 md:translate-x-0 rounded-t-3xl md:rounded-none pointer-events-auto touch-pan-y">
+
             <!-- Drag handle for mobile -->
             <div class="w-full flex justify-center py-3 md:hidden">
                 <div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
             </div>
 
             <!-- Header -->
-            <div class="px-6 py-4 md:py-6 border-b border-gray-200/50 dark:border-gray-700/50 flex justify-between items-center hidden md:flex">
+            <div
+                class="px-6 py-4 md:py-6 border-b border-gray-200/50 dark:border-gray-700/50 flex justify-between items-center hidden md:flex">
                 <div>
-                    <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500 leading-tight">Seoul Heritage &<br>KDrama Tourism</h1>
+                    <h1
+                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500 leading-tight">
+                        Seoul Heritage &<br>KDrama Tourism</h1>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Interactive WebGIS</p>
                 </div>
                 <!-- Collapse Button -->
-                <button id="collapse-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition hidden md:block">
+                <button id="collapse-btn"
+                    class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition hidden md:block">
                     <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
 
             <!-- Scrollable Content -->
-            <div id="sidebar-scroll" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6" style="-webkit-overflow-scrolling: touch; overscroll-behavior-y: contain;">
-                
+            <div id="sidebar-scroll" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6"
+                style="-webkit-overflow-scrolling: touch; overscroll-behavior-y: contain;">
+
                 <!-- Map Controls & Theme -->
-                <div class="flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200/50 dark:border-gray-700/50">
-                    <span class="text-sm font-medium"><i class="fa-solid fa-moon mr-2 text-indigo-400"></i>Dark Mode</span>
+                <div
+                    class="flex items-center justify-between bg-white/50 dark:bg-gray-800/50 p-3 rounded-xl border border-gray-200/50 dark:border-gray-700/50">
+                    <span class="text-sm font-medium"><i class="fa-solid fa-moon mr-2 text-indigo-400"></i>Dark
+                        Mode</span>
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" id="theme-toggle" class="sr-only peer" checked>
-                        <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                        <div
+                            class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary">
+                        </div>
                     </label>
                 </div>
 
                 <div class="flex space-x-2">
-                    <button id="btn-recenter" class="flex-1 py-2 px-4 text-sm font-medium rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all shadow-sm">
+                    <button id="btn-recenter"
+                        class="flex-1 py-2 px-4 text-sm font-medium rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all shadow-sm">
                         <i class="fa-solid fa-location-crosshairs mr-2"></i>Reset View
                     </button>
                 </div>
@@ -100,22 +121,32 @@
 
                 <!-- Categories -->
                 <div>
-                    <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">Categories</h2>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
+                        Categories</h2>
                     <div class="space-y-2">
-                        <label class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer transition">
-                            <input type="checkbox" class="category-filter form-checkbox h-4 w-4 text-culture rounded border-gray-300 focus:ring-culture" value="Budaya" checked>
+                        <label
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer transition">
+                            <input type="checkbox"
+                                class="category-filter form-checkbox h-4 w-4 text-culture rounded border-gray-300 focus:ring-culture"
+                                value="Budaya" checked>
                             <span class="ml-3 text-sm flex items-center">
                                 <span class="w-3 h-3 rounded-full bg-culture mr-2"></span> Heritage (Budaya)
                             </span>
                         </label>
-                        <label class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer transition">
-                            <input type="checkbox" class="category-filter form-checkbox h-4 w-4 text-kdrama rounded border-gray-300 focus:ring-kdrama" value="Lokasi Syuting" checked>
+                        <label
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer transition">
+                            <input type="checkbox"
+                                class="category-filter form-checkbox h-4 w-4 text-kdrama rounded border-gray-300 focus:ring-kdrama"
+                                value="Lokasi Syuting" checked>
                             <span class="ml-3 text-sm flex items-center">
                                 <span class="w-3 h-3 rounded-full bg-kdrama mr-2"></span> KDrama Locations
                             </span>
                         </label>
-                        <label class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer transition">
-                            <input type="checkbox" class="category-filter form-checkbox h-4 w-4 text-both rounded border-gray-300 focus:ring-both" value="Keduanya" checked>
+                        <label
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 cursor-pointer transition">
+                            <input type="checkbox"
+                                class="category-filter form-checkbox h-4 w-4 text-both rounded border-gray-300 focus:ring-both"
+                                value="Keduanya" checked>
                             <span class="ml-3 text-sm flex items-center">
                                 <span class="w-3 h-3 rounded-full bg-both mr-2"></span> Mixed (Keduanya)
                             </span>
@@ -127,47 +158,78 @@
 
                 <!-- Advanced Filters -->
                 <div>
-                    <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Advanced Filters</h2>
-                    
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">
+                        Advanced Filters</h2>
+
                     <!-- Rating -->
                     <div class="mb-5">
                         <div class="flex justify-between mb-1">
                             <label for="rating-slider" class="text-sm font-medium">Minimum Rating</label>
                             <span id="rating-value" class="text-sm font-bold text-primary">4.0+</span>
                         </div>
-                        <input type="range" id="rating-slider" min="4.0" max="5.0" step="0.1" value="4.0" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary">
+                        <input type="range" id="rating-slider" min="4.0" max="5.0" step="0.1" value="4.0"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary">
                     </div>
 
                     <!-- Popularity -->
                     <div class="mb-5">
-                        <label class="flex items-center justify-between p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition">
-                            <span class="text-sm font-medium"><i class="fa-solid fa-fire text-orange-500 mr-2"></i>Top 10 Most Visited</span>
+                        <label
+                            class="flex items-center justify-between p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                            <span class="text-sm font-medium"><i class="fa-solid fa-fire text-orange-500 mr-2"></i>Top
+                                10 Most Visited</span>
                             <div class="relative inline-flex items-center">
                                 <input type="checkbox" id="popular-filter" class="sr-only peer">
-                                <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-orange-500"></div>
+                                <div
+                                    class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-orange-500">
+                                </div>
                             </div>
                         </label>
                     </div>
 
                     <!-- Density Insight -->
                     <div>
-                        <label class="flex items-center justify-between p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition group relative">
+                        <label
+                            class="flex items-center justify-between p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition group relative">
                             <div class="flex flex-col">
-                                <span class="text-sm font-medium"><i class="fa-solid fa-radar text-primary mr-2"></i>Density Insight</span>
+                                <span class="text-sm font-medium"><i
+                                        class="fa-solid fa-radar text-primary mr-2"></i>Density Insight</span>
                                 <span class="text-xs text-gray-500 mt-1">Show hotspots (< 500m apart)</span>
                             </div>
                             <div class="relative inline-flex items-center">
                                 <input type="checkbox" id="density-filter" class="sr-only peer">
-                                <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                                <div
+                                    class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary">
+                                </div>
                             </div>
                         </label>
                     </div>
 
                 </div>
+
+                <hr class="border-gray-200/50 dark:border-slate-700/50">
+
+                <!-- Transportation -->
+                <div>
+                    <h2 class="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
+                        Transportation</h2>
+                    <div class="space-y-2">
+                        <label
+                            class="flex items-center p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800/50 cursor-pointer transition">
+                            <input type="checkbox"
+                                id="subway-filter"
+                                class="form-checkbox h-4 w-4 text-cyan-500 rounded border-gray-300 focus:ring-cyan-500">
+                            <span class="ml-3 text-sm flex items-center">
+                                <span class="w-4 h-4 rounded-full bg-cyan-500 text-white flex items-center justify-center text-[9px] font-bold mr-2">M</span> Subway Stations
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
             </div>
-            
+
             <!-- Floating Collapse Button (when sidebar is closed) -->
-            <button id="expand-btn" class="absolute -right-12 top-6 p-2 bg-white dark:bg-gray-800 shadow-lg rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 hidden md:flex hover:bg-gray-50 dark:hover:bg-gray-700 transition pointer-events-auto">
+            <button id="expand-btn"
+                class="absolute -right-12 top-6 p-2 bg-white dark:bg-gray-800 shadow-lg rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 hidden md:flex hover:bg-gray-50 dark:hover:bg-gray-700 transition pointer-events-auto">
                 <i class="fa-solid fa-chevron-right text-gray-600 dark:text-gray-300"></i>
             </button>
         </aside>
@@ -176,11 +238,12 @@
         <main class="flex-1 h-full w-full relative z-0 pointer-events-auto">
             <div id="map" class="h-full w-full"></div>
             <!-- Loading Overlay -->
-            <div id="loading-overlay" class="absolute inset-0 z-[1000] flex items-center justify-center bg-white/50 dark:bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+            <div id="loading-overlay"
+                class="absolute inset-0 z-[1000] flex items-center justify-center bg-white/50 dark:bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
         </main>
-        
+
         <!-- Mobile Overlay -->
         <div id="mobile-overlay" class="fixed inset-0 bg-transparent z-[999] pointer-events-none md:hidden"></div>
 
@@ -189,7 +252,8 @@
     <!-- Chatbot UI -->
     <div id="chatbot-container" class="fixed bottom-6 right-6 z-[1001] flex flex-col items-end pointer-events-none">
         <!-- Chat Panel -->
-        <div id="chatbot-panel" class="mb-4 w-[90vw] md:w-96 glass-panel active-glass rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 origin-bottom-right scale-0 opacity-0 pointer-events-auto touch-pan-y border border-gray-200/50 dark:border-gray-700/50">
+        <div id="chatbot-panel"
+            class="mb-4 w-[90vw] md:w-96 glass-panel active-glass rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 origin-bottom-right scale-0 opacity-0 pointer-events-auto touch-pan-y border border-gray-200/50 dark:border-gray-700/50">
             <!-- Header -->
             <div class="bg-gradient-to-r from-primary to-purple-500 p-4 text-white flex justify-between items-center">
                 <div class="flex items-center">
@@ -203,26 +267,39 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            
+
             <!-- Chat Messages -->
-            <div id="chat-messages" class="flex-1 p-4 h-64 overflow-y-auto custom-scrollbar flex flex-col space-y-4 bg-white/50 dark:bg-gray-800/50">
-                <div class="chat-bubble ai self-start bg-gray-100 dark:bg-gray-700 text-sm p-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-gray-600">
-                    Hello! I'm your AI Analyst. How can I help you explore Seoul today? Try one of the suggested queries below!
+            <div id="chat-messages"
+                class="flex-1 p-4 h-64 overflow-y-auto custom-scrollbar flex flex-col space-y-4 bg-white/50 dark:bg-gray-800/50">
+                <div
+                    class="chat-bubble ai self-start bg-gray-100 dark:bg-gray-700 text-sm p-3 rounded-2xl rounded-tl-sm shadow-sm border border-gray-200 dark:border-gray-600">
+                    Hello! I'm your AI Analyst. How can I help you explore Seoul today? Try one of the suggested queries
+                    below!
                 </div>
             </div>
 
             <!-- Quick Prompts & Input -->
-            <div class="p-3 bg-white/90 dark:bg-gray-900/90 border-t border-gray-200/50 dark:border-gray-700/50 backdrop-blur-md">
+            <div
+                class="p-3 bg-white/90 dark:bg-gray-900/90 border-t border-gray-200/50 dark:border-gray-700/50 backdrop-blur-md">
                 <!-- Chips -->
                 <div class="flex space-x-2 overflow-x-auto custom-scrollbar pb-2 mb-2">
-                    <button class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700" data-query="rating-top">⭐ Rating Tertinggi</button>
-                    <button class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700" data-query="kingdom">🧟 Drama Kingdom</button>
-                    <button class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700" data-query="density">🎯 Kepadatan</button>
+                    <button
+                        class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700"
+                        data-query="rating-top">⭐ Rating Tertinggi</button>
+                    <button
+                        class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700"
+                        data-query="kingdom">🧟 Drama Kingdom</button>
+                    <button
+                        class="chat-prompt flex-shrink-0 text-xs bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full transition border border-gray-200 dark:border-gray-700"
+                        data-query="density">🎯 Kepadatan</button>
                 </div>
                 <!-- Text Input -->
                 <form id="chat-form" class="flex items-center space-x-2">
-                    <input type="text" id="chat-input" class="flex-1 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 border-none focus:ring-2 focus:ring-primary outline-none transition" placeholder="Tanya sesuatu..." autocomplete="off">
-                    <button type="submit" class="bg-primary text-white w-9 h-9 rounded-full flex flex-shrink-0 items-center justify-center hover:bg-indigo-600 transition shadow-md">
+                    <input type="text" id="chat-input"
+                        class="flex-1 bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-200 rounded-full px-4 py-2 border-none focus:ring-2 focus:ring-primary outline-none transition"
+                        placeholder="Tanya sesuatu..." autocomplete="off">
+                    <button type="submit"
+                        class="bg-primary text-white w-9 h-9 rounded-full flex flex-shrink-0 items-center justify-center hover:bg-indigo-600 transition shadow-md">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
                     </button>
                 </form>
@@ -230,18 +307,24 @@
         </div>
 
         <!-- FAB Button -->
-        <button id="chatbot-fab" class="w-14 h-14 bg-gradient-to-r from-primary to-purple-600 rounded-full shadow-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 animate-bounce pointer-events-auto">
+        <button id="chatbot-fab"
+            class="w-14 h-14 bg-gradient-to-r from-primary to-purple-600 rounded-full shadow-xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 animate-bounce pointer-events-auto">
             <i class="fa-solid fa-sparkles text-xl"></i>
         </button>
     </div>
 
     <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <!-- Turf.js for advanced spatial analysis -->
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-    
+
+    <!-- PapaParse for CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
     <!-- Application Logic -->
     <script src="app.js"></script>
 </body>
+
 </html>
