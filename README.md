@@ -1,92 +1,104 @@
 # 🗺️ Seoul Heritage & K-Drama Tourism Interactive WebGIS
-### 서울 헤리티지 & K-드라마 관광 대화형 웹 지리정보시스템 (WebGIS)
+### 대한민국 서울의 전통 문화유산 및 K-드라마 촬영지 대화형 웹 GIS 플랫폼
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Deployment-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/Leaflet.js-v1.9.4-B91C1C?style=for-the-badge&logo=leaflet&logoColor=white" alt="Leaflet">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-v3.4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind">
+  <img src="https://img.shields.io/badge/JavaScript-ES6+-F59E0B?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+</p>
 
 ---
 
 ## 🌟 Project Overview | 프로젝트 개요
-An advanced, fully responsive **Interactive WebGIS platform** designed to analyze and visualize the spatial relationships between traditional cultural heritage sites and contemporary K-Drama filming locations across **Seoul, South Korea**. 
 
-본 플랫폼은 대한민국 서울의 전통 문화유산 명소와 현대 K-드라마 촬영지 간의 공간적 상관관계를 분석하고 시각화하는 고성능 모바일 반응형 **대화형 웹 GIS 애플리케이션**입니다.
+> 💡 **Core Mission:** Evaluating the direct spatial impact of the *Hallyu Wave* on historical tourism ecosystems through advanced client-side spatial analytics.
 
-This project demonstrates how pop-culture elements (*Hallyu Wave*) act as geographic anchors to revitalize interest in historical environments. It features public transit proximity modeling, multi-criteria spatial filtering, dynamic buffering for tourism density analysis, and an embedded data-driven local chatbot assistant. [cite_start]Developed as a core portfolio project for the *Information Systems Selected Topics (Kapita Selekta)* curriculum at Universitas Bakrie [cite: 341-344].
+An elite, high-performance, and mobile-responsive **Interactive WebGIS platform** engineered to map, filter, and analyze the geometric relationships between traditional cultural heritage sites and contemporary K-Drama filming locations across **Seoul, South Korea**. 
+
+본 플랫폼은 대한민국 서울의 전통 문화유산 명소와 현대 K-드라마 촬영지 간의 공간적 상관관계를 정밀하게 분석하고 시각화하는 고성능 모바일 반응형 **대화형 웹 지리정보시스템(WebGIS)**입니다. 
 
 ---
 
 ## 🚀 Key Features | 주요 기능
 
-### 1. Dual-Layer Exploration (Tourism & Transit Integration)
-- [cite_start]**Interactive Theme Layers**: Seamlessly toggle between **Culture (문화)**, **Filming Locations (촬영지)**, and blended historical-media hotspots (**Both / Keduanya**) to explore how media narratives overlay onto physical heritage [cite: 385-391].
-- **Seoul Subway Network Integration**: Live mapping of 700+ subway stations parsed dynamically from transit datasets, enabling international tourists to evaluate destination accessibility and optimize transit routes.
+### 🌐 1. Dynamic Dual-Layer Infrastructure
+* **Cultural & Media Overlays:** Real-time toggling across multi-classification layers: **Culture (문화)**, **Filming Locations (촬영지)**, and synergistic hotspots (**Both / Keduanya**).
+* **Mass Transit Integration:** Asynchronous parsing and spatial mapping of over **700+ Seoul Subway Stations**, granting international tourists immediate visibility into destination accessibility.
 
-### 2. Multi-Criteria Spatial Filtering
-- **Dynamic Filter Control Panel**: Real-time attribute filtering based on Google Maps rating thresholds (e.g., `>= 4.5`) and total review volumes to isolate highly popular destinations.
-- **Proximity & Density Mapping**: Automated rendering of 500-meter transparent buffers around hotspots. Overlapping buffers dynamically intensify in color/glow, visually representing **High Industry Density Areas** and prime walkable tourism clusters.
-- **Dynamic Navigation Linkage**: Every point popup features a customized "Open in Google Maps" button that automatically generates coordinates-based deep links for real-world navigation.
+### 🎛️ 2. Multi-Criteria Attribute Filtering
+* **Analytical Sidebar:** Interactive range thresholds filtering live data points by Google Maps ratings (`>= 4.0`) and total review metrics concurrently.
+* **Proximity & Density Mapping:** Real-time generation of 500-meter transparent buffers around specific hotspots. Overlapping buffers dynamically scale in opacity and visual glow to highlight **High-Density Tourism Clusters**.
+* **Deep-Link Navigation:** Every localized popup box injects custom-built anchor tags that dynamically bridge exact coordinate properties (`latitude`, `longitude`) directly into Google Maps mobile/desktop routing interfaces.
 
-### 3. Client-Side Data-Driven Chatbot Assistant
-- **Local Context AI Chatbot**: A responsive floating chat window that interacts directly with the loaded GeoJSON layers via optimized local keyword matching.
-- **Automated Spatial Insights**: Users can input queries like *"Rating tertinggi"* (Highest Rating) or *"Drama Kingdom"* to receive instant analytical list breakdowns and statistics directly extracted from the map data without external API calls.
+### 💬 3. Contextual Data-Driven Chatbot
+* **Client-Side Spatial Assistant:** A fully integrated floating chat modal that computes queries locally against the active GeoJSON layer using optimized keyword-matching arrays.
+* **Automated Insights:** Instant parsing of text commands (e.g., *"Rating tertinggi"*, *"Drama Kingdom"*) into structured list break-downs and statistical metrics without external backend API latency.
 
-### 4. Premium UI/UX & Advanced Mobile Optimization
-- **Seoul High-Tech Aesthetic**: A clean, minimalist interface utilizing a professional "Seoul Indigo Blue" color palette, smooth shadows, and fluid transitions.
-- **Toggle-State Glassmorphism**: High-end background blur treatments (`backdrop-filter: blur(12px)`) applied exclusively when panels or floating widgets are fully active.
-- **Zero Touch-Conflict Navigation**: Implements strict touch/scroll event propagation locks (`L.DomEvent.disableScrollPropagation`). [cite_start]Users can fluidly swipe and scroll through long navbar lists on mobile devices without accidentally dragging or zooming the underlying map canvas[cite: 502, 506].
-- [cite_start]**Synchronized Theme Engines**: One-tap toggle switching between Light Mode (CartoDB Positron) and Dark Mode (CartoDB Dark Matter) that instantly restyles both the UI panels and base map layers simultaneously[cite: 414, 484].
+### 📱 4. Premium UI/UX & Mobile Engine Fixes
+* **Seoul High-Tech Aesthetic:** A bespoke, minimalist interface utilizing a professional "Seoul Indigo Blue" baseline, subtle element drop shadows, and modern typography.
+* **Active-State Glassmorphism:** Elegant frosted-glass blur mechanics (`backdrop-filter: blur(12px)`) restricted strictly to active floating UI elements for a highly refined layer depth.
+* **Zero Touch-Conflict Controls:** Full neutralization of touch and scroll event propagation (`L.DomEvent.disableScrollPropagation`). Users can fluidly navigate dense sidebar options on mobile screens without triggering underlying map canvas dragging or zoom distortions.
+* **Synchronized Theme Toggles:** Instant, one-tap switching between Light Mode (CartoDB Positron) and Dark Mode (CartoDB Dark Matter), restyling both UI components and map vector styles simultaneously.
 
 ---
 
 ## 📊 Dataset Architecture | 데이터 구조
 
-The application dynamically parses and merges two core local datasets:
+### A. Tourism & Media Matrix (`korea-trip-place.csv`)
+| Attribute | Data Type | Analytical Purposing |
+| :--- | :---: | :--- |
+| `id_lokasi` | `String` | Unique alpha-numeric identifier sequence (e.g., `SEL-001`) |
+| `nama_lokasi` | `String` | Standardized tourist destination name |
+| `kategori_utama` | `String` | Core layer classification (`Culture`, `Filming Location`, `Both`) |
+| `alamat` | `String` | Full text-standardized postal address in Seoul |
+| `Latitude` / `Longitude` | `Float` | Spatial geographic nodes projected under WGS 84 (EPSG:4326) |
+| `judul_drama` | `String` | Explicitly featured K-Drama media properties |
+| `rating_gmaps` | `Float` | Quantitative user-experience score metrics (1.0 - 5.0) |
+| `total_ulasan` | `Integer` | Mass review volume metric tracking destination popularity |
+| `deskripsi_popup` | `String` | Tailored contextual description optimized for map tooltips |
 
-### A. Tourism & Media Dataset (`korea-trip-place.csv` / GeoJSON)
-- **id_lokasi**: Unique alpha-numeric identifier (e.g., `SEL-001`).
-- **nama_lokasi**: Standardized destination name (e.g., `Gyeongbokgung Palace`).
-- **kategori_utama**: Spatial classification (`Culture`, `Filming Location`, `Both`).
-- **alamat**: Full, structured textual address in Seoul.
-- **Latitude / Longitude**: Exact geographic coordinates mapped under WGS 84 (EPSG:4326).
-- **judul_drama**: Associated K-Drama titles (`Kingdom`, `Goblin`, `True Beauty`, etc.).
-- **rating_gmaps**: Quantitative metric representing average Google Maps user score (1.0 - 5.0).
-- **total_ulasan**: Volume index tracking total tourist check-ins and reviews.
-- **rasio_pengaruh_drama**: Calculated percentage metric tracking explicit pop-culture keywords against baseline historical reviews.
-- [cite_start]**deskripsi_popup**: Tailored text summary rendered inside interactive map tooltips[cite: 482, 596].
-
-### B. Transit Network Dataset (`Seoul_subway_stations.csv`)
-- **line**: Subway line identifier (e.g., `01호선`, `02호선`).
-- **name**: Native Korean station name (e.g., `소요산`, `동두천`).
-- **lat / lng**: Geographic node coordinates for network placement.
-- **no**: Unique station code sequence mapping.
+### B. Transit Network Matrix (`Seoul_subway_stations.csv`)
+| Attribute | Data Type | Analytical Purposing |
+| :--- | :---: | :--- |
+| `line` | `String` | Native subway line identifier code (e.g., `01호선`, `02호선`) |
+| `name` | `String` | Native Korean station node name (e.g., `소요산`, `동두천`) |
+| `lat` / `lng` | `Float` | Precision coordinates for public transit network placement |
+| `no` | `String` | Standardized structural unique station index number |
 
 ---
 
-## 📈 Spatial Insights & Conclusions | 공간 분석 결과
+## 📈 Spatial Analytics & Conclusions | 공간 분석 결과
 
-- [cite_start]**Urban Clustering**: Analysis reveals highly concentrated spatial clusters within central Seoul, particularly the **Jongno-gu** district [cite: 609-611]. [cite_start]Traditional palaces and modern drama sets share adjacent spatial bounds, creating ideal environments for integrated, low-emission pedestrian *walking tours*[cite: 616].
-- [cite_start]**The Tourism Spillover Effect**: Overlapping density buffers mathematically prove that viral media locations serve as powerful geographic anchors [cite: 617-619]. [cite_start]International travelers drawn primarily by pop-culture media sets are naturally funneled into neighboring heritage preservation zones, driving organic economic support to traditional historical landmarks[cite: 616].
+### 📍 Urban Clustering | 공간적 클러스터링
+> Spatial density analysis demonstrates severe geometric concentrations within central Seoul, predominantly focused throughout the **Jongno-gu** district. Traditional palaces and modern sets share immediate spatial bounds, forming a high-yield walking environment for low-emission pedestrian tours.
+
+### 🧲 The Tourism Spillover Effect | 유입 효과
+> Overlapping proximity buffers mathematically validate that viral modern media locations serve as immense geometric anchors. International travelers arriving primarily for pop-culture sets are organically guided into adjacent heritage preservation zones, directly bolstering the preservation economics of neighboring traditional historical landmarks.
 
 ---
 
 ## 🛠️ Technology Stack | 사용된 기술 Stack
 
-- **Core Frontend**: HTML5, CSS3, JavaScript (ES6+ Vanilla)
-- [cite_start]**Mapping Engine**: Leaflet.js v1.9.4 [cite: 502, 579]
-- [cite_start]**Styling UI**: Tailwind CSS (Fully Responsive Framework) [cite: 502]
-- [cite_start]**Basemaps**: CartoDB (Positron & Dark Matter APIs) [cite: 414, 484]
-- [cite_start]**Version Control & Hosting**: Git, GitHub, and cloud deployment via Vercel [cite: 457, 458]
+* **Frontend Core:** HTML5, CSS3, JavaScript (ES6+ Vanilla)
+* **Mapping Engine:** Leaflet.js v1.9.4
+* **CSS Framework:** Tailwind CSS (Fully Responsive Configuration)
+* **Tile Providers:** CartoDB (Positron & Dark Matter API Tiles)
+* **Version Control & Hosting:** Git, GitHub, and production cloud hosting via Vercel
 
 ---
 
 ## 🎓 Academic Framework | 학술적 배경
 
-- [cite_start]**Institution**: Universitas Bakrie, Jakarta [cite: 344]
-- [cite_start]**Faculty**: Engineering and Computer Science (Fakultas Teknik dan Ilmu Komputer) [cite: 345]
-- [cite_start]**Program**: Information Systems Undergraduate (S1 Sistem Informasi) [cite: 345]
-- [cite_start]**Course Assignment**: Mid-Term Examination (UTS) - Kapita Selekta Sistem Informasi (Genap 2025/2026) [cite: 340-342]
-- [cite_start]**Matrix Alignment**: Fully satisfies **CPMK-4** and **CPL (P1, KK2)** curriculum requirements for structural clean-code orchestration, responsive UI handling, and live public deployment execution[cite: 454, 455].
+* **Institution:** Universitas Bakrie, Jakarta
+* **Faculty:** Engineering and Computer Science (Fakultas Teknik dan Ilmu Komputer)
+* **Program:** Information Systems Undergraduate (S1 Sistem Informasi)
+* **Course Assignment:** Mid-Term Examination (UTS) - Kapita Selekta Sistem Informasi (Genap 2025/2026)
+* **Matrix Alignment:** Fully satisfies **CPMK-4** and **CPL (P1, KK2)** curriculum guidelines for clean-code encapsulation, touch-safe responsive interface deployment, and live web production.
 
 ---
 
 <p align="center">
   <b>시청해 주셔서 감사합니다 • Thank you for exploring this project</b> <br>
-  <i>Designed and engineered for professional portfolio integration. All rights reserved. © 2026.</i>
+  <i>Engineered for professional portfolio integration. All rights reserved. © 2026.</i>
 </p>
