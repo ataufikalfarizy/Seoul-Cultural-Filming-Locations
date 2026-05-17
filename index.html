@@ -70,16 +70,11 @@
 
         <!-- Sidebar / Bottom Sheet -->
         <aside id="sidebar"
-            class="sidebar-transition absolute z-[1000] w-full md:w-80 lg:w-96 h-[85dvh] md:h-[100dvh] bottom-0 md:bottom-auto md:top-0 md:left-0 glass-panel md:active-glass border-t md:border-t-0 md:border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform translate-y-full md:translate-y-0 md:translate-x-0 rounded-t-3xl md:rounded-none pointer-events-auto touch-pan-y">
-
-            <!-- Drag handle for mobile -->
-            <div class="w-full flex justify-center py-3 md:hidden">
-                <div class="w-12 h-1.5 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-            </div>
+            class="sidebar-transition absolute z-[1000] w-[85vw] md:w-80 lg:w-96 h-[100dvh] top-0 left-0 glass-panel border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col shadow-2xl transform -translate-x-full md:translate-x-0 pointer-events-auto touch-pan-y">
 
             <!-- Header -->
             <div
-                class="px-6 py-4 md:py-6 border-b border-gray-200/50 dark:border-gray-700/50 flex justify-between items-center hidden md:flex">
+                class="px-6 py-4 md:py-6 border-b border-gray-200/50 dark:border-gray-700/50 flex justify-between items-center">
                 <div>
                     <h1
                         class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500 leading-tight">
@@ -245,7 +240,7 @@
         </main>
 
         <!-- Mobile Overlay -->
-        <div id="mobile-overlay" class="fixed inset-0 bg-transparent z-[999] pointer-events-none md:hidden"></div>
+        <div id="mobile-overlay" class="fixed inset-0 z-[999] pointer-events-none md:hidden bg-transparent"></div>
 
     </div>
 

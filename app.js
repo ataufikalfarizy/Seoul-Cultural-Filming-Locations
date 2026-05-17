@@ -107,12 +107,10 @@ function initUI() {
 
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-        mobileMenuToggle.addEventListener('touchstart', toggleMobileMenu, {passive: false});
     }
 
     if (mobileOverlay) {
         mobileOverlay.addEventListener('click', toggleMobileMenu);
-        mobileOverlay.addEventListener('touchstart', toggleMobileMenu, {passive: false});
     }
 
     // Reset View

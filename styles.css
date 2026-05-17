@@ -20,7 +20,7 @@ body {
 
 .glass-panel.active-glass,
 .mobile-open.glass-panel {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -61,9 +61,9 @@ body {
 /* Mobile Bottom Sheet specific styles */
 @media (max-width: 767px) {
     #sidebar {
-        height: auto;
+        height: 100dvh;
         max-height: 100dvh;
-        border-radius: 24px 24px 0 0;
+        border-radius: 0;
     }
 
     #sidebar-scroll {
@@ -73,11 +73,13 @@ body {
     }
 
     .mobile-open {
-        transform: translateY(0) !important;
+        transform: translateX(0) !important;
     }
 
     .overlay-open {
         pointer-events: auto !important;
+        background-color: rgba(0, 0, 0, 0.4) !important;
+        transition: background-color 0.3s ease;
     }
 }
 
